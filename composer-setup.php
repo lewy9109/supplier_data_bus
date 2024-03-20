@@ -319,7 +319,7 @@ function getPlatformIssues(&$errors, &$warnings, $install)
         if (false === stripos($suhosin, 'phar') && (!$suhosinBlacklist || false !== stripos($suhosinBlacklist, 'phar'))) {
             $errors['suhosin'] = array(
                 'The suhosin.executor.include.whitelist setting is incorrect.',
-                'Add the following to the end of your `php.ini` or suhosin.ini (Example path [for Debian]: /etc/php5/cli/conf.d/suhosin.ini):',
+                'Add the following to the end of your `php.ini` or suhosin.ini (Example path [for Debian]: /etc/php5/cli/nginx.d/suhosin.ini):',
                 '    suhosin.executor.include.whitelist = phar '.$suhosin,
                 $iniMessage
             );
