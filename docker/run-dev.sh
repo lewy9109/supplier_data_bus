@@ -33,9 +33,9 @@ if [ ! $(docker network ls --filter name="^$NETWORK_NAME$" --format="{{.ID}}") ]
     docker network create "$NETWORK_NAME"
 fi
 
-docker-compose $OVERRIDES --env-file $ENV_FILE stop
-docker-compose $OVERRIDES --env-file $ENV_FILE build
-docker-compose $OVERRIDES --env-file $ENV_FILE up -d --remove-orphans
+docker-compose stop
+docker-compose build
+docker-compose up -d --remove-orphans
 
 docker exec -it "${CONTAINER_NAME}" chown -R www-data:www-data /var/www/html/var
 docker exec -it --user www-data "${CONTAINER_NAME}" composer install

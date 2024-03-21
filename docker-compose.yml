@@ -71,5 +71,5 @@ volumes:
     db-volume:
 
 networks:
-    network:
+    network_bus_supplier:
         external: true
