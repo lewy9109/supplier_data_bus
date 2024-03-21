@@ -1,4 +1,4 @@
-FROM bus_supplier:1.0
+FROM bus_supplier:2.0
 ####################
 ##     XDEBUG     ##
 ####################

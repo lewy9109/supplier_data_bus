@@ -4,7 +4,7 @@
 NAME="bus_supplier"
 NETWORK_NAME="network_bus_supplier"
 CONTAINER_NAME="bus_supplier"
-BASE_IMAGE="bus_supplier:1.0"
+BASE_IMAGE="bus_supplier:2.0"
 BASE_IMAGE_DOCKERFILE="bus_supplier.Dockerfile"
 OVERRIDES=
 
