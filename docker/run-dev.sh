@@ -4,9 +4,9 @@
 NAME="bus_supplier"
 NETWORK_NAME="network_bus_supplier"
 CONTAINER_NAME="bus_supplier"
-BASE_IMAGE="bus_supplier-base:1.0"
+BASE_IMAGE="bus_supplier:1.0"
 BASE_IMAGE_DOCKERFILE="bus_supplier.Dockerfile"
-#OVERRIDES=
+OVERRIDES=
 
 # Set base working directory
 SCRIPT_PATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 || { echo "Failure: cd dirname \$0"; exit 1; } ; pwd -P )"
@@ -16,7 +16,7 @@ BASEDIR=$(pwd)
 echo "Working directory: $BASEDIR"
 
 # Load environment variables
-ENV_FILE="./docker/.env.dist"
+ENV_FILE="./docker/env.dist"
 if [ -f ./docker/.env ]; then
     ENV_FILE="./docker/.env"
 fi
@@ -33,9 +33,9 @@ if [ ! $(docker network ls --filter name="^$NETWORK_NAME$" --format="{{.ID}}") ]
     docker network create "$NETWORK_NAME"
 fi
 
-#docker-compose $OVERRIDES --env-file $ENV_FILE stop
-#docker-compose $OVERRIDES --env-file $ENV_FILE build
-#docker-compose $OVERRIDES --env-file $ENV_FILE up -d --remove-orphans
+docker-compose $OVERRIDES --env-file $ENV_FILE stop
+docker-compose $OVERRIDES --env-file $ENV_FILE build
+docker-compose $OVERRIDES --env-file $ENV_FILE up -d --remove-orphans
 
 docker exec -it "${CONTAINER_NAME}" chown -R www-data:www-data /var/www/html/var
 docker exec -it --user www-data "${CONTAINER_NAME}" composer install

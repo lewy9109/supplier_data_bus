@@ -40,8 +40,9 @@ COPY docker/nginx/nginx.d/service.conf /etc/nginx/conf.d/service.conf
 # Configure supervisord
 COPY docker/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Configure PHP-FPM
+## Configure PHP-FPM
 #COPY docker/etc/php/php.ini-development /usr/local/etc/php/php.ini
+#COPY docker/etc/php/conf.d/* /usr/local/etc/php/conf.d/
 #COPY docker/etc/php/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Make sure files/folders needed by the processes are accessable when they run under the www-data user
