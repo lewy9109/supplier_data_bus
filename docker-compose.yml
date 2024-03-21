@@ -1,0 +1,75 @@
+version: "3.4"
+
+services:
+    bus_supplier:
+        container_name: bus_supplier
+        build:
+            context: .
+            dockerfile: ./docker/dev.Dockerfile
+            args:
+                - 'WITH_XDEBUG=${DOCKER_XDEBUG_ENABLED}'
+        ports:
+            - "${DOCKER_NGINX_PORT:-30050}:80"
+        restart: unless-stopped
+        environment:
+            - DB_DATABASE=${DB_DATABASE}
+            - DB_ROOT_USER=${DB_ROOT_USER}
+            - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+        extra_hosts:
+            - host.docker.internal:host-gateway
+        networks:
+            - network_bus_supplier
+        volumes:
+            - .:/var/www/html
+#            - /etc/timezone:/etc/timezone:ro
+#            - /etc/localtime:/etc/localtime:ro
+
+    bus_supplier-db:
+        image: mariadb:10.9
+        container_name: bus_supplier-db
+        restart: unless-stopped
+        environment:
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_ROOT_USER=${DB_ROOT_USER}
+            - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+            - MYSQL_USER=${DB_USER}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+        ports:
+            - '30051:3306'
+        networks:
+            - network_bus_supplier
+        volumes:
+            - db-volume:/var/lib/mysql
+            - ./docker/etc/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+#            - /etc/timezone:/etc/timezone:ro
+#            - /etc/localtime:/etc/localtime:ro
+
+    bus_supplier-rabbitmq:
+        image: rabbitmq:management
+        container_name: bus_supplier-rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-guest}
+            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS:-guest}
+        ports:
+            - "${RABBITMQ_PORT:-5672}:5672"
+            - "${RABBITMQ_PORT_ADMIN:-15672}:15672"
+        networks:
+            - network_bus_supplier
+
+    bus_supplier-redis:
+        image: redis:alpine
+        container_name: bus_supplier-redis
+        restart: unless-stopped
+        ports:
+            - "${REDIS_PORT:-6379}:6379"
+        networks:
+            - network_bus_supplier
+
+volumes:
+    db-volume:
+
+networks:
+    network:
+        external: true
