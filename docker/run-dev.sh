@@ -16,7 +16,7 @@ BASEDIR=$(pwd)
 echo "Working directory: $BASEDIR"
 
 # Load environment variables
-ENV_FILE="./docker/env.dist"
+ENV_FILE="./docker/.env.dist"
 if [ -f ./docker/.env ]; then
     ENV_FILE="./docker/.env"
 fi
