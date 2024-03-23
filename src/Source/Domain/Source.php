@@ -42,19 +42,3 @@ class Source
         return $this->id;
     }
 }
-
-$methodConnection = new MethodConnection(MethodConnection::FTP);
-
-$connectionData = new ConnectionData(
-    new Login('login'),
-    new Password('password'),
-    new Host('host'),
-    new Port('Port')
-);
-
-$source = new Source(
-    $methodConnection,
-    $connectionData,
-);
-
-$source->connect();
