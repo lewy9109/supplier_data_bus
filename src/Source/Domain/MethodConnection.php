@@ -18,7 +18,7 @@ class MethodConnection
     #[Column(type: "string", length: 50)]
     private string $method;
 
-    private function __construct(string $method)
+    public function __construct(string $method)
     {
         $this->method = $method;
     }

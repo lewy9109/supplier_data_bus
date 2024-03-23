@@ -1,58 +1,53 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Source\Domain;
 
-use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping\Column;
+use App\Source\Domain\Auth\AuthDataInterface;
+use App\Source\Domain\Auth\AuthFTP;
+use App\Source\Domain\Auth\AuthSFTP;
+use App\Source\Domain\Auth\Host;
+use App\Source\Domain\Auth\Login;
+use App\Source\Domain\Auth\Password;
+use App\Source\Domain\Auth\Port;
 use Doctrine\ORM\Mapping\Embeddable;
+use Doctrine\ORM\Mapping\Embedded;
 
 #[Embeddable]
 class ConnectionData
 {
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
-    private string $login;
+    #[Embedded(class: Login::class)]
+    private ?Login $login;
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
-    private string $password;
+    #[Embedded(class: Password::class)]
+    private ?Password $password;
 
-    #[Column(type: Types::STRING, length: 255, nullable: true)]
-    private string $url;
+    #[Embedded(class: Host::class)]
+    private ?Host $host;
 
-    #[Column(type: Types::STRING, length: 50, nullable: true)]
-    private string $host;
-
-    #[Column(type: Types::STRING, length: 2, nullable: true)]
-    private string $port;
-
-    #[Column(type: Types::STRING, length: 100, nullable: true)]
-    private string $wsdl;
-
-    #[Column(type: Types::STRING, length: 100, nullable: true)]
-    private string $method;
+    #[Embedded(class: Port::class)]
+    private ?Port $port;
 
     public function __construct(
-        private MethodConnection $methodConnection,
-        string $login,
-        string $password,
-        string $url,
-        string $host,
-        string $port,
-        string $wsdl,
-        string $method
+        ?Login $login = null,
+        ?Password $password = null,
+        ?Host $host = null,
+        ?Port $port = null,
     )
     {
         $this->login = $login;
+        $this->password = $password;
+        $this->host = $host;
+        $this->port = $port;
 
     }
 
-    public function getAuthData(): AuthDataInterface
+    public function getAuthData(MethodConnection $methodConnection): AuthDataInterface
     {
-        return match ($this->methodConnection->toString()) {
+        return match ($methodConnection->toString()) {
             MethodConnection::FTP => new AuthFTP($this->login, $this->password, $this->host, $this->port),
             MethodConnection::SFTP => new AuthSFTP($this->login, $this->password, $this->host, $this->port),
-            MethodConnection::URL => new AuthUrl($this->login, $this->password, $this->url),
-            MethodConnection::SOAP => new AuthSOAP($this->login, $this->password, $this->wsdl, $this->method),
         };
     }
 

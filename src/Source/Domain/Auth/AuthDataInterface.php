@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Source\Domain;
+declare(strict_types=1);
+
+namespace App\Source\Domain\Auth;
 
 interface AuthDataInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Source\Domain;
+namespace App\Source\Domain\Auth;
 
 class AuthUrl implements AuthDataInterface
 {
