@@ -2,6 +2,8 @@
 
 namespace App\Source\Domain\Auth;
 
+use App\Source\Domain\AuthDataInterface;
+
 class AuthSFTP implements AuthDataInterface
 {
     public function __construct(

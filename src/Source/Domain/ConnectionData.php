@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Source\Domain;
 
-use App\Source\Domain\Auth\AuthDataInterface;
+use App\Source\Domain\AuthDataInterface;
 use App\Source\Domain\Auth\AuthFTP;
 use App\Source\Domain\Auth\AuthSFTP;
 use App\Source\Domain\Auth\Host;

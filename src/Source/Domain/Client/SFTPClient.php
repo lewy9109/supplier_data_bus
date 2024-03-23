@@ -2,7 +2,7 @@
 
 namespace App\Source\Domain;
 
-use App\Source\Domain\Auth\AuthDataInterface;
+use App\Source\Domain\AuthDataInterface;
 
 class SFTPClient implements ConnectionInterface
 {

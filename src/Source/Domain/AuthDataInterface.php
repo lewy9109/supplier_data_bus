@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Source\Domain\Auth;
+namespace App\Source\Domain;
 
 interface AuthDataInterface
 {
