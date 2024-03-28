@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Source\Domain;
 
-use App\Source\Domain\Auth\AuthDataInterface;
 use App\Source\Domain\Auth\Host;
 use App\Source\Domain\Auth\Login;
 use App\Source\Domain\Auth\Port;
